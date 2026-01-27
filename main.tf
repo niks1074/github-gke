@@ -84,7 +84,7 @@ resource "google_container_node_pool" "primary" {
 
 node_config {
     machine_type = var.node_machine_type
-    disk_size_gb = 50            # reduce per-node disk size
+    disk_size_gb = 30            # reduce per-node disk size
     disk_type    = "pd-standard" # use standard PD instead of SSD
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
