@@ -13,7 +13,7 @@ jobs:
       PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
       CLUSTER_NAME: gke-tf-bg-cluster
       CLUSTER_REGION: us-central1-a
-      IMAGE: gcr.io/${{ secrets.GCP_PROJECT_ID }}/myapp:${{ github.sha }}
+      USE_GKE_GCLOUD_AUTH_PLUGIN: True
 
     steps:
       - name: Checkout repository
@@ -29,6 +29,10 @@ jobs:
         uses: google-github-actions/setup-gcloud@v1
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Install GKE auth plugin
+        run: |
+          gcloud components install gke-gcloud-auth-plugin
 
       - name: Configure kubectl
         run: |
