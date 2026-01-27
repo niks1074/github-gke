@@ -60,7 +60,7 @@ variable "cluster_name" {
 variable "node_count" {
   type        = number
   description = "Number of nodes in the primary node pool"
-  default     = 2
+  default     = 1
 }
 
 variable "node_machine_type" {

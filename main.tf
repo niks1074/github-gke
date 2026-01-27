@@ -27,7 +27,7 @@ resource "google_compute_network" "vpc" {
 resource "google_compute_subnetwork" "subnet" {
   name                     = var.subnet_name
   project                  = var.project_id
-  region                   = var.region
+  region                   = "us-central1"
   network                  = google_compute_network.vpc.self_link
   ip_cidr_range            = var.subnet_cidr
   private_ip_google_access = true
@@ -41,6 +41,8 @@ resource "google_compute_subnetwork" "subnet" {
     range_name    = "services"
     ip_cidr_range = var.services_secondary_range
   }
+
+
 }
 
 # GKE cluster (regional)
@@ -66,7 +68,11 @@ resource "google_container_cluster" "gke" {
     }
   }
 
-  depends_on = [google_project_service.required_apis]
+   depends_on = [
+    google_project_service.required_apis,
+    google_compute_subnetwork.subnet
+  ]
+
 }
 
 # Node pool
@@ -85,6 +91,9 @@ node_config {
     ]
   }
 
+  lifecycle {
+    create_before_destroy = true
+  }
 
   depends_on = [google_container_cluster.gke]
 }
