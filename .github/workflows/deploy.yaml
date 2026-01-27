@@ -53,7 +53,11 @@ jobs:
         run: |
           kubectl apply -f k8s/deployment-green.yaml
 
+      - name: Deploy service pointing to Blue
+        run: |
+          kubectl apply -f k8s/service.yaml
+
       - name: Switch traffic to Green
         run: |
-          kubectl patch service myapp-service \
-            -p '{"spec":{"selector":{"app":"myapp","version":"green"}}}'
+          kubectl patch service hello-service \
+            -p '{"spec":{"selector":{"app":"hello","version":"green"}}}'
