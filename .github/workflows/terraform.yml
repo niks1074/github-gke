@@ -34,9 +34,8 @@ jobs:
 
       - name: Configure gcloud auth for Terraform
         run: |
-          echo "$GOOGLE_CREDENTIALS" > "${HOME}/gcloud-key.json"
-          gcloud auth activate-service-account --key-file="${HOME}/gcloud-key.json"
-          gcloud config set project "${{ secrets.GCP_PROJECT_ID }}"
+          gcloud auth activate-service-account --key-file=keys.json
+          gcloud config set project "gke-tf-bg"
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
