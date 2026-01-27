@@ -60,4 +60,4 @@ jobs:
       - name: Switch traffic to Green
         run: |
           kubectl patch service hello-service \
-            -p '{"spec":{"selector":{"app":"hello","version":"green"}}}'
+            -p '{"spec":{"selector":{"app":"hello","version":"blue"}}}'
