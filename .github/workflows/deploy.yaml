@@ -1,0 +1,50 @@
+name: Blue-Green Deployment
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      CLUSTER_NAME: gke-tf-bg-cluster
+      CLUSTER_REGION: us-central1
+      IMAGE: gcr.io/${{ secrets.GCP_PROJECT_ID }}/myapp:${{ github.sha }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Configure kubectl
+        run: |
+          gcloud container clusters get-credentials $CLUSTER_NAME --region $CLUSTER_REGION --project $PROJECT_ID
+
+      - name: Build and push Docker image
+        run: |
+          gcloud auth configure-docker
+          docker build -t $IMAGE .
+          docker push $IMAGE
+
+      - name: Deploy Blue version
+        run: |
+          kubectl apply -f k8s/deployment-blue.yaml
+          kubectl apply -f k8s/service.yaml
+
+      - name: Deploy Green version
+        run: |
+          kubectl apply -f k8s/deployment-green.yaml
+
+      - name: Switch traffic to Green
+        run: |
+          kubectl patch service myapp-service \
+            -p '{"spec":{"selector":{"app":"myapp","version":"green"}}}'
