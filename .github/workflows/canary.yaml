@@ -61,5 +61,8 @@ jobs:
         run: kubectl apply -f k8s/hello-service-green.yaml
 
       # Deploy Canary Ingress (NGINX)
+      - name: Deploy base Ingress
+        run: kubectl apply -f k8s/bas-blue.yaml
+
       - name: Deploy Canary Ingress
         run: kubectl apply -f k8s/canary-ingress.yaml
