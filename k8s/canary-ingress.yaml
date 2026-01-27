@@ -6,6 +6,7 @@ metadata:
     nginx.ingress.kubernetes.io/canary: "true"
     nginx.ingress.kubernetes.io/canary-weight: "50"   # 50% traffic to green
 spec:
+  ingressClassName: nginx
   rules:
   - host: "hello.example.com"
     http:
