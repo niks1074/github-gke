@@ -1,0 +1,12 @@
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# GCP key
+keys.json
+
+# OS / editor
+.vscode/
+*.log

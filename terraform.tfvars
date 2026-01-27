@@ -1,0 +1,9 @@
+project_id="gke-tf-bg"
+region="us-central1"
+cluster_name="gke-tf-bg-cluster"
+network_name="gke-tf-bg-network"
+subnet_name="gke-tf-bg-subnet"
+# machine_type="n1-standard-2"
+# num_nodes=3
+# kubernetes_version="1.27"
+# environment="dev"
