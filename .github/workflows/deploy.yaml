@@ -29,11 +29,11 @@ jobs:
         run: |
           gcloud container clusters get-credentials $CLUSTER_NAME --region $CLUSTER_REGION --project $PROJECT_ID
 
-      - name: Build and push Docker image
-        run: |
-          gcloud auth configure-docker
-          docker build -t $IMAGE .
-          docker push $IMAGE
+      # - name: Build and push Docker image
+      #   run: |
+      #     gcloud auth configure-docker
+      #     docker build -t $IMAGE .
+      #     docker push $IMAGE
 
       - name: Deploy Blue version
         run: |

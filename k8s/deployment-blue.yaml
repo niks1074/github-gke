@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-blue
+  name: hello-blue
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: myapp
+      app: hello
       version: blue
   template:
     metadata:
       labels:
-        app: myapp
+        app: hello
         version: blue
     spec:
       containers:
       - name: myapp
-        image: myrepo/myapp:v1
+        image: gcr.io/google-samples/hello-app:1.0
         ports:
-        - containerPort: 80
+        - containerPort: 8080
