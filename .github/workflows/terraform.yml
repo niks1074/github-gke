@@ -34,7 +34,7 @@ jobs:
 
       - name: Configure gcloud auth for Terraform
         run: |
-          gcloud auth activate-service-account --key-file=keys.json
+          # gcloud auth activate-service-account --key-file=keys.json
           gcloud config set project "gke-tf-bg"
 
       - name: Setup Terraform
