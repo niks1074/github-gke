@@ -67,7 +67,8 @@ resource "google_container_cluster" "gke" {
       issue_client_certificate = false
     }
   }
-
+  deletion_protection = false   # 👈 add this line
+   
    depends_on = [
     google_project_service.required_apis,
     google_compute_subnetwork.subnet
