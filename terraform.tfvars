@@ -3,6 +3,7 @@ region="us-central1-a"
 cluster_name="gke-tf-bg-cluster"
 network_name="gke-tf-bg-network"
 subnet_name="gke-tf-bg-subnet"
+node_count=1
 # machine_type="n1-standard-2"
 # num_nodes=3
 # kubernetes_version="1.27"
