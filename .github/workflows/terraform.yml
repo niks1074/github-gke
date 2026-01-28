@@ -13,6 +13,7 @@ permissions:
   contents: read
   id-token: write
 
+
 jobs:
   terraform:
     name: Terraform plan and apply
