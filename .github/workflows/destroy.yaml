@@ -1,0 +1,44 @@
+name: Terraform Destroy
+
+on:
+  workflow_dispatch: {}   # manual trigger only
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  terraform-destroy:
+    name: Terraform destroy
+    runs-on: ubuntu-latest
+    env:
+      TF_WORKING_DIR: .
+      TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
+      GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: "1.5.0"
+
+      - name: Terraform init
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: terraform init -input=false
+
+      - name: Terraform validate
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: terraform validate
+
+      - name: Terraform destroy
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: terraform destroy -auto-approve -var="project_id=${{ secrets.GCP_PROJECT_ID }}"
