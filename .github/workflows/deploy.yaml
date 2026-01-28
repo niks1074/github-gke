@@ -6,6 +6,7 @@ on:
       - main
   workflow_dispatch: {}
 
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -60,4 +61,4 @@ jobs:
       - name: Switch traffic to blue vs green or vice versa
         run: |
           kubectl patch service hello-service \
-            -p '{"spec":{"selector":{"app":"hello","version":"blue"}}}'
+            -p '{"spec":{"selector":{"app":"hello","version":"green"}}}'
